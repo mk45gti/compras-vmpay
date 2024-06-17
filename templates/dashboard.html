@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Sugestão de Compras</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Sugestão de Compras para os próximos 15 Dias</h2>
+        <!-- Formulário para seleção de categoria -->
+        <form action="/" method="get" class="mb-3">
+            <div class="form-group">
+                <label for="category-select">Filtrar por Categoria:</label>
+                <select name="category_id" id="category-select" class="form-control">
+                    <option value="">Selecione uma Categoria</option>
+                    {% for category in categories %}
+                    <option value="{{ category['id'] }}" {% if category['id'] == request.args.get('category_id', '') %}selected{% endif %}>{{ category['name'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+        </form>
+
+        <!-- Tabela de projeção -->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Quantidade Projetada</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product, quantity in projection.items() %}
+                <tr>
+                    <td>{{ product }}</td>
+                    <td>{{ quantity|int if quantity == quantity|int else quantity }}</td>  <!-- Formatando a quantidade -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

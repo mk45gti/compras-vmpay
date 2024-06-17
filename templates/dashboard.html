@@ -16,7 +16,9 @@
                 <select name="category_id" id="category-select" class="form-control">
                     <option value="">Selecione uma Categoria</option>
                     {% for category in categories %}
-                    <option value="{{ category['id'] }}" {% if category['id'] == request.args.get('category_id', '') %}selected{% endif %}>{{ category['name'] }}</option>
+                    <option value="{{ category['id'] }}" {% if category['id'] == request.args.get('category_id', '') %}selected{% endif %}>
+                        {{ category['name'] }}
+                    </option>
                     {% endfor %}
                 </select>
             </div>
@@ -29,13 +31,15 @@
                 <tr>
                     <th>Produto</th>
                     <th>Quantidade Projetada</th>
+                    <th>Estoque Atual</th> <!-- Coluna adicionada para estoque -->
                 </tr>
             </thead>
             <tbody>
-                {% for product, quantity in projection.items() %}
+                {% for product_id, details in projection.items() %}
                 <tr>
-                    <td>{{ product }}</td>
-                    <td>{{ quantity|int if quantity == quantity|int else quantity }}</td>  <!-- Formatando a quantidade -->
+                    <td>{{ product_id }}</td>
+                    <td>{{ details.quantity|int }}</td>
+                    <td>{{ details.stock|int }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

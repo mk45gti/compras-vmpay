@@ -19,6 +19,7 @@ def fetch_and_analyze_sales(category_id, access_token):
     else:
         return None, None
 
+
 def main(category_id=None, access_token=None):
     if not access_token:
         raise ValueError("Access token is required")
